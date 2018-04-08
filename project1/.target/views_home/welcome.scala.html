@@ -1,0 +1,26 @@
+@(person:persons, akun:account)
+<html>
+<head>
+</head>
+<body>
+	<h1>
+	Tampilan Data Dalam Bentuk Tabel
+	</h1>
+	<br>
+	<br>
+	<table>
+		<th>Metode</th>
+		<th>Identitas</th>
+		<th>Nama</th>
+		<th>Out1</th>
+		<th>Out2</th>
+		<tr>
+			<td>Konstruk 1 parameter</td>
+			<td>@person.noiden</td>
+			<td>@person.nama</td>
+			<td>@akun.getNama()</td>
+			<td>@akun.getBalance()</td>
+		</tr>
+	</table>
+</body>
+</html>
