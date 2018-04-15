@@ -1,0 +1,91 @@
+@(otentikasi: Otentikasi_Model)
+<div class="modal fade" id="modal-default" data-backdrop="static" data-keyboard="false" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Profil - Edit Nama</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group has-feedback">
+                    <input type="text" id="nama" value="@otentikasi.nama" class="form-control" placeholder="Nama">
+                    <div id="status_nama">
+                        Silahkan Masukkan Nama
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="batal" class="btn btn-danger">Batal</button>
+                    <button id="simpan" class="btn btn-primary">Simpan</button>
+                </div>
+            </div>
+                <!-- /.modal-content -->
+        </div>
+            <!-- /.modal-dialog -->
+        <div class="progress" id="progress_wait">
+            <div class="progress-bar progress-bar-success progress-bar-striped active" role="progressbar"
+            aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width:100%; height: 40px">
+            </div>
+        </div>
+    </div>
+        <!-- /.modal -->
+    <script type="text/javascript">
+            function checkInput(){
+                $("#simpan").attr("disabled", true);
+                if($("#nama").val() != ""){
+                    $('#status_nama').html("<i class=\"fa fa-fw fa-check\"></i>");
+                    $("#simpan").attr("disabled", false);
+                    return true;
+                }else{
+                    $('#status_nama').html("Silahkan Masukkan Nama");
+                    $("#simpan").attr("disabled", true);
+                    return false;
+                }
+            }
+
+            function initEdit(){
+                $("#simpan").attr("disabled", true);
+                $("#progress_wait").hide();
+                checkInput();
+            }
+            function _showEdit(){
+                $("#modal-default").modal("show");
+            }
+
+            function showEdit(){
+                setTimeout(_showEdit, 1000);
+            }
+
+            function hideEdit(){
+                $("#modal-default").modal("hide");
+            }
+
+            $("#nama").on('input', function(e) {
+                checkInput();
+            });
+
+            $("#simpan").click(function() {
+                if(checkInput() == true) {
+                    $("#batal").attr("disabled", true);
+                    $("#progress_wait").show();
+                    $.ajax({
+                        url: "@routes.Profil.index()",
+                        data: {edit_nama: $("#nama").val()},
+                        type: "POST",
+                        async: false,
+                        success: function (data) {
+                            if (data != "") {
+                                $("#profil_nama").val(data);
+                                $("#profil_nama_1").text(data);
+                                $("#profil_nama_2").text(data);
+                                $("#profil_nama_3").text(data);
+                                $("#progress_wait").hide();
+                                hideEdit();
+                            }
+                        }
+                    });
+                }
+            });
+
+            $("#batal").click(function() {
+                $("#modal-default").modal("hide");
+            });
+    </script>

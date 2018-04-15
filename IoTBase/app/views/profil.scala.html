@@ -1,7 +1,76 @@
-<html>
-<head>
-</head>
-<body>
-	<h3>Profil View, Masih dalam tahap pengerjaan</h3>
-</body>
-</html>
+@(otentikasi: Otentikasi_Model)
+<div class="box box-primary">
+        <div class="box-body box-profile">
+            <h3 class="box-title">Profil</h3>
+            <div class="box-header with-border">
+                <h4>Username</h4>
+                <input type="text" id="profil_username" value="@otentikasi.username" class="form-control" disabled>
+                <button id="edit_username" class="btn btn-primary btn-raised btn-flat">Edit</button>
+            </div>
+            <div class="box-header with-border">
+                <h4>Nama</h4>
+                <input type="text" id="profil_nama" value="@otentikasi.nama" class="form-control" disabled>
+                <button id="edit_nama" class="btn btn-primary btn-raised btn-flat">Edit</button>
+            </div>
+            <div class="box-header with-border">
+                <h4>Password</h4>
+                <input type="password" value="######" name="password_baru" class="form-control" disabled>
+                <button id="edit_password" class="btn btn-primary btn-raised btn-flat">Edit</button>
+            </div>
+                    <!-- /.login-box-body -->
+        </div>
+                <!-- /.login-box -->
+</div>
+
+<div id="script_loader">
+</div>
+
+<script type="text/javascript">
+$("#edit_username").click(function() {
+    showPleaseWait("Harap Tunggu...");
+    $.ajax({
+        url:"@routes.Profil.index()",
+        data: {edit:"username"},
+        type:"POST",
+        async: false,
+        success: function(data){
+            $('#script_loader').html(data);
+            initEdit();
+            hidePleaseWait();
+            showEdit();
+        }
+    });
+});
+
+$("#edit_nama").click(function() {
+    showPleaseWait("Harap Tunggu...");
+    $.ajax({
+        url:"@routes.Profil.index()",
+        data: {edit:"nama"},
+        type:"POST",
+        async: false,
+        success: function(data){
+            $('#script_loader').html(data);
+            initEdit();
+            hidePleaseWait();
+            showEdit();
+        }
+    });
+});
+
+$("#edit_password").click(function() {
+    showPleaseWait("Harap Tunggu...");
+    $.ajax({
+        url:"@routes.Profil.index()",
+        data: {edit:"password"},
+        type:"POST",
+        async: false,
+        success: function(data){
+            $('#script_loader').html(data);
+            initEdit();
+            hidePleaseWait();
+            showEdit();
+        }
+    });
+});
+</script>

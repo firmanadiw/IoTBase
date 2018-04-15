@@ -1,0 +1,103 @@
+@(otentikasi: Otentikasi_Model)
+<div class="modal fade" id="modal-default" data-backdrop="static" data-keyboard="false" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Profil - Edit Username</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group has-feedback">
+                    <input type="text" id="username" value="@otentikasi.username" class="form-control" placeholder="Username">
+                    <div id="status_username">
+                        Silahkan Masukkan Username
+                    </div>
+                </div>
+            <div class="modal-footer">
+                <button id="batal" class="btn btn-danger">Batal</button>
+                <button id="simpan" class="btn btn-primary">Simpan</button>
+            </div>
+        </div>
+            <!-- /.modal-content -->
+    </div>
+        <!-- /.modal-dialog -->
+    <div class="progress" id="progress_wait">
+        <div class="progress-bar progress-bar-success progress-bar-striped active" role="progressbar"
+        aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width:100%; height: 40px">
+        </div>
+    </div>
+</div>
+<!-- /.modal -->
+<script type="text/javascript">
+function checkInput(wait = false){
+    $("#simpan").attr("disabled", true);
+    var hasil = false;
+    $("#progress_wait").show();
+    $.ajax({
+        url:"@routes.Profil.index()",
+        data: {check_username:$("#username").val()},
+        type:"POST",
+        async: !wait,
+        success: function(data){
+            if(($("#username").val() != "") && (data == "true")){
+                $('#status_username').html("Username Dapat Dipakai <i class=\"fa fa-fw fa-check\"></i>");
+                $("#simpan").attr("disabled", false);
+                hasil = true;
+            }else
+            if(data == "false"){
+                $('#status_username').html("Username Sudah Dipakai <i class=\"fa fa-fw fa-close\"></i>");
+                $("#simpan").attr("disabled", true);
+                hasil = false;
+            }else{
+                $('#status_username').html("Silahkan Masukkan Username");
+                hasil = false;
+            }
+            $("#progress_wait").hide();
+        }
+    });
+    return hasil;
+}
+
+function initEdit(){
+    $("#simpan").attr("disabled", true);
+    $("#progress_wait").hide();
+    checkInput(true);
+}
+function _showEdit(){
+    $("#modal-default").modal("show");
+}
+
+function showEdit(){
+    setTimeout(_showEdit, 1000);
+}
+
+function hideEdit(){
+    $("#modal-default").modal("hide");
+}
+
+$("#username").on('input', function(e) {
+    checkInput();
+});
+
+$("#simpan").click(function() {
+    if(checkInput(true) == true) {
+        $("#batal").attr("disabled", true);
+        $("#progress_wait").show();
+        $.ajax({
+            url: "@routes.Profil.index()",
+            data: {edit_username: $("#username").val()},
+            type: "POST",
+            async: false,
+            success: function (data) {
+                if (data != "") {
+                    $("#profil_username").val(data);
+                    hideEdit();
+                }
+            }
+        });
+    }
+});
+
+$("#batal").click(function() {
+    $("#modal-default").modal("hide");
+});
+</script>

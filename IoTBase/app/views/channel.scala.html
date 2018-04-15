@@ -1,7 +1,188 @@
-<html>
-<head>
-</head>
-<body>
-	<h3>Pengaturan Channel View, Masih dalam tahap pengerjaan</h3>
-</body>
-</html>
+@(tabel: List[TabelChannel])
+<!-- DataTables -->
+<link rel="stylesheet" href="@routes.Assets.at("UI/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css")">
+
+<div class="modal fade" id="deskripsi_channel_modal" data-backdrop="static" data-keyboard="false" role="dialog">
+    <div class="modal-dialog" style="width: 100%; height: 100%; margin: 0; padding: 0;">
+        <div class="modal-content" style="height: auto; min-height: 100%; border-radius: 0;">
+            <div class="modal-header">
+                <h4 id="deskripsi_channel_title" class="modal-title">Channel - Deskripsi</h4>
+            </div>
+            <div class="modal-body">
+                <div id="deskripsi_channel_content">
+                </div>
+                <div class="modal-footer">
+                    <button id="deskripsi_channel_modal_ok" class="btn btn-primary">OK</button>
+                </div>
+            </div>
+                <!-- /.modal-content -->
+        </div>
+            <!-- /.modal-dialog -->
+        <div class="progress" id="progress_wait_channel_deskripsi">
+            <div class="progress-bar progress-bar-success progress-bar-striped active" role="progressbar"
+            aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width:100%; height: 40px">
+            </div>
+        </div>
+    </div>
+        <!-- /.modal -->
+</div>
+
+<div class="modal fade" id="access_key_channel_modal" data-backdrop="static" data-keyboard="false" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 id="access_key_channel_title" class="modal-title">Channel - Access Key</h4>
+            </div>
+            <div class="modal-body">
+                <div id="access_key_channel_content">
+                </div>
+                <div class="modal-footer">
+                    <button id="access_key_channel_modal_ok" class="btn btn-primary">OK</button>
+                </div>
+            </div>
+                <!-- /.modal-content -->
+        </div>
+            <!-- /.modal-dialog -->
+        <div class="progress" id="progress_wait_access_key_channel">
+            <div class="progress-bar progress-bar-success progress-bar-striped active" role="progressbar"
+            aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width:100%; height: 40px">
+            </div>
+        </div>
+    </div>
+        <!-- /.modal -->
+</div>
+
+<h3>Pengaturan - Channel</h3>
+
+<div class="box">
+    <div class="box-header">
+        <h3 class="box-title">Jumlah Channel : </h3>
+    </div>
+        <!-- /.box-header -->
+    <div class="box-body">
+        <button id="tambah_channel" class="btn bg-purple margin btn-sm">Tambah</button>
+        <table id="tabel_channel" class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>Nama Channel</th>
+                    <th>Deskripsi</th>
+                    <th>Access Key</th>
+                    <th>Jumlah Field</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+            @for(i <- 0 to tabel.size() - 1) {
+                <tr>
+                    <td>@tabel.get(i).nama</td>
+                    <td><button id="deskripsi_@tabel.get(i).id" class="btn bg-olive margin btn-sm">Lihat</button></td>
+                    <td><button id="access_key_channel_@tabel.get(i).id" class="btn bg-olive margin btn-sm">Lihat</button></td>
+                    <td> 4</td>
+                    <td><button id="edit_@tabel.get(i).id" class="btn bg-purple margin btn-sm">Edit</button>
+                            &nbsp;
+                        <button id="hapus_@tabel.get(i).id"  class="btn bg-maroon margin btn-sm">Hapus</button></td>
+                </tr>
+
+                <script type="text/javascript">
+                    $("#deskripsi_@tabel.get(i).id").click(function() {
+                        $("#deskripsi_channel_content").hide();
+                        $("#deskripsi_channel_content").html("")
+                        $("#deskripsi_channel_modal").modal("show");
+                        $("#progress_wait_channel_deskripsi").show();
+                        $.ajax({
+                            url: "@routes.Channel.index()",
+                            data: {deskripsi_channel: "@tabel.get(i).id"},
+                            type: "POST",
+                            async: false,
+                            success: function (data) {
+                                $("#deskripsi_channel_title").text("Channel - @tabel.get(i).nama");
+                                $("#deskripsi_channel_content").html(data);
+                                $("#deskripsi_channel_content").fadeIn(500);
+                                $("#progress_wait_channel_deskripsi").hide();
+                            }
+                        });
+
+                    });
+
+                    $("#access_key_channel_@tabel.get(i).id").click(function() {
+                        $("#access_key_channel_content").hide();
+                        $("#access_key_channel_content").html("")
+                        $("#access_key_channel_modal").modal("show");
+                        $("#progress_wait_access_key_channel").show();
+                        $.ajax({
+                            url: "@routes.Channel.index()",
+                            data: {access_key_channel: "@tabel.get(i).id"},
+                            type: "POST",
+                            async: false,
+                            success: function (data) {
+                                $("#access_key_channel_title").text("Channel - @tabel.get(i).nama");
+                                $("#access_key_channel_content").html(data);
+                                $("#access_key_channel_content").fadeIn(500);
+                                $("#progress_wait_access_key_channel").hide();
+                            }
+                        });
+
+                    });
+                </script>
+            }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th>Nama Channel</th>
+                    <th>Deskripsi</th>
+                    <th>Access Key</th>
+                    <th>Jumlah Field</th>
+                    <th>Action</th>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+        <!-- /.box-body -->
+</div>
+
+<div id="script_loader">
+</div>
+
+    <!-- /.box -->
+    <!-- DataTables -->
+<script src="@routes.Assets.at("UI/bower_components/datatables.net/js/jquery.dataTables.min.js")"></script>
+<script src="@routes.Assets.at("UI/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js")"></script>
+
+<script type="text/javascript">
+  $(function () {
+      $("#tabel_channel").DataTable({
+          'paging'      : false,
+          'lengthChange': false,
+          'searching'   : false,
+          'ordering'    : true,
+          'info'        : true,
+          'autoWidth'   : true
+      });
+  });
+</script>
+
+<script type="text/javascript">
+$("#tambah_channel").click(function() {
+    showPleaseWait("Harap Tunggu...");
+    $.ajax({
+        url:"@routes.Channel.index()",
+        data: {data:"tambah"},
+        type:"POST",
+        async: false,
+        success: function(data){
+            $('#script_loader').html(data);
+            initEdit();
+            hidePleaseWait();
+            showEdit();
+        }
+    });
+});
+
+$("#deskripsi_channel_modal_ok").click(function() {
+    $("#deskripsi_channel_modal").modal("hide");
+});
+
+$("#access_key_channel_modal_ok").click(function() {
+    $("#access_key_channel_modal").modal("hide");
+});
+</script>

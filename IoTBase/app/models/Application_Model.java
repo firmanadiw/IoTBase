@@ -1,5 +1,4 @@
 package models;
-
-public class Application_Model {
+public class Application_Model{
 
 }

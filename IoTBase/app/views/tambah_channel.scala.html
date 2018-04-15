@@ -1,0 +1,185 @@
+<div class="modal fade" id="modal-default" data-backdrop="static" data-keyboard="false" role="dialog">
+    <div class="modal-dialog" style="width: 100%; height: 100%; margin: 0; padding: 0;">
+        <div class="modal-content" style="height: auto; min-height: 100%; border-radius: 0;">
+            <div class="modal-header">
+                <h4 class="modal-title">Channel - Tambah Channel</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group has-feedback">
+                    <input type="text" id="nama_channnel" class="form-control" placeholder="Nama Channel">
+                    <div id="status_nama_channel">
+                        Silahkan Masukkan Nama Channel
+                    </div>
+                </div>
+                <div class="form-group has-feedback">
+                    <textarea id="deskripsi_channel" autofocus></textarea>
+                </div>
+                <div class="form-group has-feedback">
+                    <input type="text" class="form-control" placeholder="Read Access Key" readonly>
+                    <div>
+                        Tergenerate Otomatis
+                    </div>
+                </div>
+                <div class="form-group has-feedback">
+                    <input type="text" class="form-control" placeholder="Write Access Key" readonly>
+                    <div>
+                        Tergenerate Otomatis
+                    </div>
+                </div>
+                <div class="form-group has-feedback">
+                    <input type="text" class="form-control" placeholder="Read Write Access Key" readonly>
+                    <div>
+                        Tergenerate Otomatis
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="batal" class="btn btn-danger">Batal</button>
+                    <button id="simpan" class="btn btn-primary">Simpan</button>
+                </div>
+            </div>
+                <!-- /.modal-content -->
+        </div>
+            <!-- /.modal-dialog -->
+        <div class="progress" id="progress_wait">
+            <div class="progress-bar progress-bar-success progress-bar-striped active" role="progressbar"
+            aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width:100%; height: 40px">
+            </div>
+        </div>
+    </div>
+        <!-- /.modal -->
+    <!-- Simditor Rich Edit -->
+    <link rel="stylesheet" type="text/css" href="@routes.Assets.at("simditor/assets/styles/simditor.css")" />
+    <script type="text/javascript" src="@routes.Assets.at("simditor/assets/scripts/module.js")" ></script>
+    <script type="text/javascript" src="@routes.Assets.at("simditor/assets/scripts/hotkeys.js")" ></script>
+    <script type="text/javascript" src="@routes.Assets.at("simditor/assets/scripts/uploader.js")" ></script>
+    <script type="text/javascript" src="@routes.Assets.at("simditor/assets/scripts/simditor.js")" ></script>
+
+    <script src="@routes.Assets.at("simditor-emoji/lib/simditor-emoji.js")"></script>
+    <link rel="stylesheet" type="text/css" href="@routes.Assets.at("simditor-emoji/styles/simditor-emoji.css")">
+
+    <script type="text/javascript" src="@routes.Assets.at("simditor-mark/lib/simditor-mark.js")"></script>
+
+    <script type="text/javascript" src="@routes.Assets.at("js-beautify/js/lib/beautify-html.js")"></script>
+    <script type="text/javascript" src="@routes.Assets.at("simditor-html/lib/simditor-html.js")"></script>
+    <link rel="stylesheet" href="@routes.Assets.at("simditor-html/styles/simditor-html.css")" media="screen" charset="utf-8" />
+
+    <script type="text/javascript" src="@routes.Assets.at("marked/lib/marked.js")"></script>
+    <script type="text/javascript" src="@routes.Assets.at("to-markdown/src/to-markdown.js")"></script>
+    <script type="text/javascript" src="@routes.Assets.at("simditor-markdown/lib/simditor-markdown.js")"></script>
+    <link rel="stylesheet" href="@routes.Assets.at("simditor-markdown/styles/simditor-markdown.css")" media="screen" charset="utf-8">
+
+    <script src="@routes.Assets.at("simditor-checklist/lib/simditor-checklist.js")"></script>
+    <link rel="stylesheet" type="text/css" href="@routes.Assets.at("simditor-checklist/styles/simditor-checklist.css")">
+
+    <script type="text/javascript" src="@routes.Assets.at("simditor-marked/lib/simditor-marked.js")"></script>
+
+    <script type="text/javascript" src="@routes.Assets.at("simditor-dropzone/lib/simditor-dropzone.js")"></script>
+
+    <script type="text/javascript" src="@routes.Assets.at("simditor-fullscreen/lib/simditor-fullscreen.js")"></script>
+    <link rel="stylesheet" href="@routes.Assets.at("simditor-fullscreen/styles/simditor-fullscreen.css")">
+
+    <script type="text/javascript">
+        $(function () {
+            Simditor.locale="en-US";
+            var editor = new Simditor({
+                textarea: $("#deskripsi_channel"),
+                placeholder: "Silahkan Masukkan Deskripsi Channel",
+                toolbar: ['title',
+                    'bold',
+                    'italic',
+                    'underline',
+                    'strikethrough',
+                    'fontScale',
+                    'color',
+                    'mark',
+                    '|',
+                    'ol',
+                    'ul',
+                    'blockquote',
+                    //'code',
+                    'table',
+                    'emoji',
+                    'checklist',
+                    '|',
+                    'link',
+                    'image',
+                    'hr',
+                    '|',
+                    'indent',
+                    'outdent',
+                    'alignment',
+                    '|',
+                    'html',
+                    'markdown',
+                    'marked',
+                    '|',
+                    'fullscreen'],
+                emoji: {
+                    imagePath: '@routes.Assets.at("simditor-emoji/images/emoji/")'
+                },
+                pasteImage: true,
+                upload: true
+            });
+        });
+    </script>
+    <!--End Simditor Rich Edit -->
+
+    <script type="text/javascript">
+            function checkInput(){
+                $("#simpan").attr("disabled", true);
+                if($("#nama_channnel").val() != ""){
+                    $('#status_nama_channel').html("<i class=\"fa fa-fw fa-check\"></i>");
+                    $("#simpan").attr("disabled", false);
+                    return true;
+                }else{
+                    $('#status_nama_channel').html("Silahkan Masukkan Nama Channel");
+                    $("#simpan").attr("disabled", true);
+                    return false;
+                }
+            }
+
+            function initEdit(){
+                $("#simpan").attr("disabled", true);
+                $("#progress_wait").hide();
+                checkInput();
+            }
+            function _showEdit(){
+                $("#modal-default").modal("show");
+            }
+
+            function showEdit(){
+                setTimeout(_showEdit, 1000);
+            }
+
+            function hideEdit(){
+                $("#modal-default").modal("hide");
+            }
+
+            $("#nama_channnel").on('input', function(e) {
+                checkInput();
+            });
+
+            $("#simpan").click(function() {
+                if(checkInput() == true) {
+                    $("#batal").attr("disabled", true);
+                    $("#progress_wait").show();
+                    $.ajax({
+                        url: "@routes.Channel.index()",
+                        data: {tambah_channel: $("#nama_channnel").val(), deskripsi_channel: $("#deskripsi_channel").val()},
+                        type: "POST",
+                        async: false,
+                        success: function (data) {
+                            if (data != "") {
+                                $('#tabel_channel > tbody > tr:first').before(data);
+                                $("#progress_wait").hide();
+                                hideEdit();
+                            }
+                        }
+                    });
+                }
+            });
+
+            $("#batal").click(function() {
+                $("#modal-default").modal("hide");
+            });
+    </script>

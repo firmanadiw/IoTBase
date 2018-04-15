@@ -1,0 +1,15 @@
+@(profil: Profil_Model, tabel: List[TabelProfil])
+<h3>Profil View, Masih dalam tahap pengerjaan</h3>
+
+@for(i <- 0 to tabel.size() - 1){
+	@tabel.get(i).id
+	<br>
+	@tabel.get(i).username
+	<br>
+	@tabel.get(i).nama
+	<br>
+	@tabel.get(i).password
+	<br>
+	<br>
+	<br>
+}

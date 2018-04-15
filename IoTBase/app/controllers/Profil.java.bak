@@ -1,0 +1,28 @@
+package controllers;
+
+import play.*;
+import play.mvc.*;
+
+import java.util.*;
+
+import models.Otentikasi_Model;
+import models.Profil_Model;
+import models.TabelProfil;
+
+import views.html.*;
+
+public class Profil extends Controller{
+    public static Result index() {
+    	Otentikasi_Model otentikasi = new Otentikasi_Model();
+	    if(otentikasi.cek(session("signin_username"), session("signin_password")) == true) {
+	    	Profil_Model profil;
+	    	profil = new Profil_Model();
+	    	
+			List<TabelProfil> tabel = new ArrayList<TabelProfil>();
+			profil.renderList(tabel, "SELECT * FROM profil");
+	    	return ok(views.html.profil.render(profil, tabel));
+	    }else {
+	    	return ok(views.html.access_denied.render());
+	    }
+    }
+}

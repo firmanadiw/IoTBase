@@ -1,0 +1,45 @@
+@(read_access_key: String, write_access_key: String, read_write_access_key : String)
+
+<div class="form-group has-feedback">
+    <input type="text" class="form-control" placeholder="@read_access_key" readonly>
+    <button id="read_access_key_copy" class="btn bg-olive margin btn-sm">Copy</button>
+    <div>
+        Read Access Key
+    </div>
+</div>
+<div class="form-group has-feedback">
+    <input type="text" class="form-control" placeholder="@write_access_key" readonly>
+    <button id="write_access_key_copy" class="btn bg-olive margin btn-sm">Copy</button>
+    <div>
+        Write Access Key
+    </div>
+</div>
+<div class="form-group has-feedback">
+    <input type="text" class="form-control" placeholder="@read_write_access_key" readonly>
+    <button id="read_write_access_key_copy" class="btn bg-olive margin btn-sm">Copy</button>
+    <div>
+        Read Write Access Key
+    </div>
+</div>
+
+<script type="text/javascript" src="@routes.Assets.at("clipboard.js/dist/clipboard.js")"></script>
+
+<script>
+var clipboard_read_access_key = new ClipboardJS("#read_access_key_copy", {
+    text: function() {
+        return "@read_access_key";
+    }
+});
+
+var clipboard_write_access_key = new ClipboardJS("#write_access_key_copy", {
+    text: function() {
+        return "@write_access_key";
+    }
+});
+
+var clipboard_read_write_access_key = new ClipboardJS("#read_write_access_key_copy", {
+    text: function() {
+        return "@read_write_access_key";
+    }
+});
+</script>

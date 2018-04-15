@@ -4,9 +4,17 @@
 
 # Home page
 GET     /                           controllers.Application.index()
-GET     /profil                    	controllers.Profil.index()
-GET     /channel                    controllers.Channel.index()
-GET     /channel/data               controllers.Channel.data()
+GET     /signin                     controllers.Signin.index()
+POST    /signin                     controllers.Signin.index()
+
+# Menggunakan method post, bertujuan untuk proteksi
+# agar controller tidak dapat diakses melalui web browser secara langsung 
+POST    /registrasi             	controllers.Registrasi.index()
+POST    /signout                    controllers.Signout.index()
+POST    /profil                    	controllers.Profil.index()
+POST    /channel                    controllers.Channel.index()
+POST    /channel/data               controllers.Channel.data()
+# ---------------------------------------------------------------------------------
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
